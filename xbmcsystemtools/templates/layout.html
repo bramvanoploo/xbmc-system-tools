@@ -1,0 +1,166 @@
+<!doctype html>
+<html>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <head>
+        {% block head %}
+        <title>
+            {% block title %}{% endblock %} - XBMC Minimal Installation
+        </title>
+        <link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400' rel='stylesheet' type='text/css' />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/xbmc-installer-theme/jquery-ui-1.10.1.custom.min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-notify-osd/notify-osd.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+        <script type="text/javascript" src="{{ url_for('static', filename='javascript/jquery-1.9.1.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='javascript/jquery-ui-1.10.1.custom.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='javascript/jquery-notify-osd/notify-osd.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='javascript/config.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='javascript/application.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='javascript/api.class.js') }}"></script>
+        <script type="text/javascript">
+        	var api = new Api();
+
+        	$(document).ready(function(){
+        		api.getCpuLoad('#cpuLoad');
+        		api.getRamInUse('#ramInUse');
+        		api.getTotalRam('#totalRam');
+        		api.getOperatingSystem('#operatingSystem');
+        		setInterval('api.getCpuLoad("#cpuLoad")', INFO_UPDATE_INTERVAL);
+        		setInterval('api.getRamInUse("#ramInUse")', INFO_UPDATE_INTERVAL);
+
+        		$.notify_osd.setup({
+        	    	'visible_max': 4,
+        	    	'sticky': false,
+        	    	'timeout': NOTIFICATION_TIMEOUT,
+        	    	'dismissable': true
+        		});
+
+        		$('input, button, a').not('.ui-button').tooltip({
+					show: null,
+					position: {
+					  	my: 'left bottom-20',
+					  	at: 'left top'
+					},
+					open: function(event, ui) {
+					  	ui.tooltip.animate({
+					  		top: ui.tooltip.position().top + 10
+					  	},
+					  	ANIMATION_SPEED);
+    		   		},
+    		   		hide: {
+   		            	duration: ANIMATION_SPEED
+   		          	}
+        		});
+
+        		$('#footer a').not('.ui-button').tooltip({
+					show: null,
+					position: {
+					  	my: 'center bottom+30',
+					  	at: 'center bottom'
+					},
+					open: function(event, ui) {
+					  	ui.tooltip.animate({
+					  		top: ui.tooltip.position().top + 10
+					  	},
+					  	ANIMATION_SPEED);
+    		   		},
+    		   		hide: {
+   		            	duration: ANIMATION_SPEED
+   		          	}
+        		});
+
+        		$('input[type=submit], button').button().click(function(event) {
+        	    	event.preventDefault();
+        	    });
+        	});
+        </script>
+        {% endblock %}
+    </head>
+<body>
+    <h1>
+    	Ubuntu XBMC HTPC System Tools
+    </h1>
+    <center>
+        <table width="990" cellspacing="0" cellpadding="0" class="main_structure">
+            <tr>
+                <td id="steps">
+                	<h4>
+                        XBMC
+                    </h4>
+					<ul>
+                        <li>
+                            <a href="/xbmc_repository" {% if request.path == "/xbmc_repository" %}class="active"{% endif %}>Repository</a>
+                        </li>
+                        <!--
+                        <li>
+                            <a href="/xbmc_database" {% if request.path == "/xbmc_database" %}class="active"{% endif %}>Database</a>
+                        </li>
+                        <li>
+                            <a href="/xbmc_advanced_settings" {% if request.path == "/xbmc_advanced_settings" %}class="active"{% endif %}>Advanced Settings</a>
+                        </li>
+                        -->
+                        <li>
+                            <a href="/addon_repositories" {% if request.path == "/addon_repositories" %}class="active"{% endif %}>Addon repositories</a>
+                        </li>
+                        <!--
+                        <li>
+                            <a href="/xbmc_skins" {% if request.path == "/xbmcskins" %}class="active"{% endif %}>Skins (Github)</a>
+                        </li>
+                        -->
+                        <li>
+                            <a href="/xbmc_backups" {% if request.path == "/xbmc_backups" %}class="active"{% endif %}>Backups</a>
+                        </li>
+                    </ul>
+				    <br />
+					<h4>
+                        System
+                    </h4>
+					<ul>
+						<li>
+                            <a href="/system_tools" {% if request.path == "/system_tools" %}class="active"{% endif %}>Tools</a>
+                        </li>
+                        <li>
+                            <a href="/system_info" {% if request.path == "/system_info" %}class="active"{% endif %}>Information</a>
+                        </li>
+                    </ul>
+                </td>
+                <td id="content">
+                	<div id="contentWrapper">
+                		{% block content %}{% endblock %}
+                	</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" id="footer">
+                	<table width="100%">
+					    <tr>
+					        <td width="20%" align="center" valign="top">
+					            os: <b id="operatingSystem"></b>
+					        </td>
+					        <td width="20%" align="center" valign="top">
+					            cpu load: <b id="cpuLoad"></b> %
+					        </td>
+					        <td width="20%" align="center" valign="top">
+					            ram in use: <b id="ramInUse"></b> MB of <b id="totalRam"></b> MB
+					        </td>
+					        <td align="right">
+					        	<a href="http://www.ubuntu.com/" target="_blank" title="Running on Ubuntu"><img src="{{ url_for('static', filename='images/ubuntu_logo.png') }}" border="0" height="24" /></a>&nbsp;&nbsp;&nbsp;&nbsp;
+					            <a href="https://github.com/Bram77/xbmc-ubuntu-minimal" target="_blank" title="Hosted on GitHub"><img src="{{ url_for('static', filename='images/github_logo.png') }}" border="0" height="24" /></a>&nbsp;&nbsp;&nbsp;&nbsp;
+					        	<a href="http://www.python.org/" target="_blank" title="Powered by Python"><img src="{{ url_for('static', filename='images/python_logo.png') }}" border="0" height="24" /></a>&nbsp;&nbsp;&nbsp;&nbsp;
+					        	<a href="http://www.sudo-systems.com/" target="_blank" title="Developed by Sudo-Systems"><img src="{{ url_for('static', filename='images/sudo_systems_logo.png') }}" border="0" height="24" /></a>
+					        </td>
+					    </tr>
+					</table>
+                </td>
+            </tr>
+        </table>
+    </center>
+
+    <div id="systemInfo" title="System info"></div>
+    <div id="console"></div>
+    <div id="confirm"></div>
+    <div id="loading" title="Operation in progress...">
+    	<div class="icon"></div>
+    	<div class="message"></div>
+    </div>
+</body>
+</html>
