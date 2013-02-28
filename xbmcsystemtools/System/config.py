@@ -8,7 +8,7 @@ debug_log = "logs/debug.log"
 error_log = "logs/error.log"
 info_log = "logs/info.log"
 
-home_directory = command.run("echo $HOME").replace("\n", "")+'/'
+home_directory = "/home/xbmc/" #command.run("echo $HOME").replace("\n", "")+'/'
 xbmc_user = home_directory.split("/")[3].replace("\n", "")
 temp_directory = home_directory+ "temp/"
 environment_file = "/etc/environment"
