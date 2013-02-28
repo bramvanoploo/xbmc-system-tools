@@ -143,10 +143,4 @@ function Api() {
 			pfCallback(poData);
 		});
     };
-    
-    this.updateApplication = function(pfCallback) {
-        this.request('application.update', '', function(poData){
-			pfCallback(poData);
-		});
-    };
 }

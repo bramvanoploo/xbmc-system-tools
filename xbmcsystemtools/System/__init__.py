@@ -10,3 +10,4 @@ import software
 import ppa
 import filesystem
 import xbmc
+import application
