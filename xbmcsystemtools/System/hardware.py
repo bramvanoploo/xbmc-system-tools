@@ -29,7 +29,7 @@ def get_cpu_core_count():
     return multiprocessing.cpu_count()
     
 def get_vga():
-    return command.run("lspci |grep VGA")
+    return command.run()
     
 def get_gpu_manufacturer():
     vga = get_vga()
@@ -37,9 +37,12 @@ def get_gpu_manufacturer():
     return manufacturer
     
 def get_gpu_type():
-    vga = get_vga()
-    version = vga.split("[")[1].replace("]", "")
-    return version
+    try:
+        vga = get_vga()
+        version = vga.split(": ")[1]
+        return version
+    except:
+        return 'Unable to determine GPU type'
     
 def get_total_ram():
     ramInfo = subprocess.check_output("cat /proc/meminfo", shell=True).strip()
