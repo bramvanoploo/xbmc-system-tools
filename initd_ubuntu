@@ -2,10 +2,9 @@
 
 ## Fill in name of program here.
 PROG="XbmcSystemTools.py"
-PROG_PATH="/home/xbmc/.xbmcsystemtools"
-PROG_ARGS="10000000"
+PROG_PATH="/usr/share/xbmcsystemtools"
 PID_PATH="/var/run/"
-SERVER_PORT="80"
+SERVER_PORT="8090"
 
 start() {
     if [ -e "$PID_PATH/$PROG.pid" ]; then
@@ -13,8 +12,7 @@ start() {
         echo "Error! $PROG is currently running!" 1>&2
         exit 1
     else
-        ## Change from /dev/null to something like /var/log/$PROG if you want to save output.
-            python $PROG_PATH/$PROG $PROG_ARGS 2>&1 >/dev/null &
+        python $PROG_PATH/$PROG $SERVER_PORT 2>&1 >/dev/null &
         echo "$PROG started"
         touch "$PID_PATH/$PROG.pid"
     fi
@@ -22,14 +20,12 @@ start() {
 
 stop() {
     if [ -e "$PID_PATH/$PROG.pid" ]; then
-        ## Program is running, so stop it
         killall $PROG
 
         rm "$PID_PATH/$PROG.pid"
 
         echo "$PROG stopped"
     else
-        ## Program is not running, exit with error.
         echo "Error! $PROG not started!" 1>&2
         exit 1
     fi
