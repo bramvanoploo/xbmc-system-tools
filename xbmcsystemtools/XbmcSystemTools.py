@@ -39,7 +39,7 @@ def xbmc_backups():
         
 @app.route('/xbmc_backups/download/<path:filename>')
 def download_backup(filename):
-	return send_from_directory(System.config.xbmc_backups_dir, filename, as_attachment=True)
+	return send_from_directory(System.config.xbmc_backups_dir, filename)
 
 @app.route('/addon_repositories')
 def addon_repositories():
