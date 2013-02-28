@@ -2,13 +2,20 @@ import System
 import json
 import types
 import urllib
+import sys
 from inspect import stack
 from os import path
 from flask import Flask, render_template, request, Response, redirect
 from werkzeug import secure_filename
 
 app = Flask(__name__)
-db = System.Database.Database(System.config.installation_database)
+#db = System.Database.Database(System.config.installation_database)
+
+try:
+    server_port = sys.argv[1]
+except:
+    server_port = "8090"
+    pass
 
 def method_exists(method_name):
     try:
@@ -19,7 +26,7 @@ def method_exists(method_name):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return redirect('/system_info', 301)
 
 @app.route('/xbmc_backups')
 def xbmc_backups():
@@ -49,7 +56,7 @@ def system():
 
 @app.route('/prepare_system')
 def prepare_system():
-    db.set('installation_steps', 'prepare_system', 1)
+    #db.set('installation_steps', 'prepare_system', 1)
     return render_template('prepare_system.html')
 
 @app.route('/about')
@@ -129,4 +136,4 @@ def api():
     return response
 
 if __name__ == '__main__':
-    app.run(host=System.network.get_local_ip_address(), port=80, debug=True)
+    app.run(host="0.0.0.0", port=int(server_port), debug=True)
