@@ -86,7 +86,6 @@ def auto_remove():
 
 def search(package_name, installed_packes):
     apt_cache = apt.cache.Cache()
-    apt_cache.open(None)
     packages = apt_cache.keys()
     if installed_packes:
         result = [value for value in packages if apt_cache[value].isInstalled and package_name.strip() in value]
