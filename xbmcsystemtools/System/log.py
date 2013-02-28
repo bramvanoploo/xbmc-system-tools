@@ -1,5 +1,8 @@
 import config
 import datetime
+import filesystem
+
+filesystem.create_directory('logs')
 
 def debug(message, method = ''):
     if config.debug:
