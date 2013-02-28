@@ -29,7 +29,7 @@ def get_cpu_core_count():
     return multiprocessing.cpu_count()
     
 def get_vga():
-    return command.run()
+    return command.run("lspci |grep VGA")
     
 def get_gpu_manufacturer():
     vga = get_vga()
