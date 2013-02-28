@@ -14,15 +14,15 @@ sudo apt-get -y install git-core python-software-properties software-properties-
 
 echo "* Downloading and configuring Xbmc System Tools as a system service"
 cd /usr/local/share
-sudo git clone -q https://github.com/Bram77/xbmc-system-tools.git xbmcsystemtools
-cd ./xbmcsystemtools
-sudo cp ./initd_ubuntu /etc/init.d/xbmcsystemtools
-sudo chmod +x /etc/init.d/xbmcsystemtools
-sudo update-rc.d xbmcsystemtools defaults
+sudo git clone -q https://github.com/Bram77/xbmc-system-tools.git xbmcsystemtools > /dev/null 2>&1
+cd ./xbmcsystemtools > /dev/null 2>&1
+sudo cp ./initd_ubuntu /etc/init.d/xbmcsystemtools > /dev/null 2>&1
+sudo chmod +x /etc/init.d/xbmcsystemtools > /dev/null 2>&1
+sudo update-rc.d xbmcsystemtools defaults > /dev/null 2>&1
 sudo service xbmcsystemtools start
 
-SYSTEM_IP = ifconfig eth0 | grep 'inet addr' | cut -d: -f2 | awk '{print $1}'
+SYSTEM_IP=$(ifconfig eth0 | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')
 
 echo "* Xbmc System Tools has successfully been installed."
-echo "* Please open the following address http://" $SYSTEM_IP ":8090 in your browser"
+echo "* Please open the following address http://"$SYSTEM_IP":8090 in your browser"
 exit
