@@ -1,9 +1,13 @@
 function Api() {
+    this.pendingRequest;
+    
 	this.request = function(pstrMethod, pstrParams, pfCallback) {
+        if(this.pendingRequest)
+        
 		var lstrParams = (pstrParams === undefined)? '' : pstrParams;
 		var lfCallback = (pfCallback === undefined)? function(){} : pfCallback;
 
-		$.ajax({
+		this.pendingRequest = $.ajax({
 			type: 'GET',
 			url: '/api',
 			dataType: 'json',

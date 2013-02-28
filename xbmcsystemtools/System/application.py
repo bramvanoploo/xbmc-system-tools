@@ -25,6 +25,18 @@ def get_commit_count():
     remote_info = remote.fetch()[0]
     remote_commit = remote_info.commit
     commit_count = 0
-    while remote_commit.hexsha != local_commit.hexsha:
+    for commit in repo_changes(remote_commit):
+        if commit.hexsha == local_commit.hexsha:
+            return 0
         commit_count += 1
     return commit_count
+
+def repo_changes(remote_commit):
+    next_parent = None
+    yield remote_commit
+    while len(remote_commit.parents) > 0:
+        same_parent(remote_commit.parents)
+        for parent in remote_commit.parents:
+            yield parent
+            next_parent = parent
+        remote_commit = next_parent
