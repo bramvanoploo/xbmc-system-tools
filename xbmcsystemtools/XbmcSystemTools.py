@@ -12,6 +12,7 @@ app = Flask(__name__)
 #db = System.Database.Database(System.config.installation_database)
 
 System.filesystem.create_directory(System.config.log_directory)
+System.filesystem.create_directory(System.config.xbmc_backups_dir)
 
 try:
     server_port = sys.argv[1]
