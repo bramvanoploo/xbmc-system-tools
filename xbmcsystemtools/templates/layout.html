@@ -28,10 +28,10 @@
         		setInterval('api.getRamInUse("#ramInUse")', INFO_UPDATE_INTERVAL);
 
         		$.notify_osd.setup({
-        	    	'visible_max': 4,
-        	    	'sticky': false,
-        	    	'timeout': NOTIFICATION_TIMEOUT,
-        	    	'dismissable': true
+        	    	visible_max: 4,
+        	    	sticky: false,
+        	    	timeout: NOTIFICATION_TIMEOUT,
+        	    	dismissable: true
         		});
 
         		$('input, button, a').not('.ui-button').tooltip({
@@ -71,6 +71,18 @@
         		$('input[type=submit], button').button().click(function(event) {
         	    	event.preventDefault();
         	    });
+                
+                var loUpdateChecker = setInterval(function(){
+                   api.getApplicationUpdateCount(function(poData){
+                       if(poData && poData.success && poData.result > 0) {
+                           clearInterval(loUpdateChecker);
+                           $.notify_osd.create({
+                                text: 'Update(s) is available (' +poData.result+ ' commits behind).<br />Click <a href="/update">here</a> to start updating...',
+                                sticky: true
+                            });
+                       }
+                   });
+                });
         	});
         </script>
         {% endblock %}

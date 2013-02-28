@@ -32,6 +32,10 @@ def method_exists(method_name):
 def index():
     return redirect('/system_info', 301)
 
+@app.route('/update')
+def index():
+    return 'Updated' if System.application.update() else 'Error updating'
+
 @app.route('/xbmc_backups')
 def xbmc_backups():
     return render_template('xbmc_backups.html',
@@ -73,7 +77,7 @@ def about():
 
 @app.route('/system_tools')
 def system_tools():
-    return render_template('system_tools.html',)
+    return render_template('system_tools.html')
 
 @app.route('/upload_backup',  methods=['POST'])
 def upload_backup():

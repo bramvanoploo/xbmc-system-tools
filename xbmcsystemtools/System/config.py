@@ -9,7 +9,8 @@ xbmc_user = home_directory.split("/")[3].replace("\n", "")
 temp_directory = home_directory+ "temp/"
 environment_file = "/etc/environment"
 
-installation_path = "/usr/local/share/xbmcsystemtools/xbmcsystemtools/"
+root_path = "/usr/local/share/xbmcsystemtools/"
+installation_path = root_path+"xbmcsystemtools/"
 log_directory = installation_path+"logs/"
 debug_log = log_directory+"debug.log"
 error_log = log_directory+"error.log"
