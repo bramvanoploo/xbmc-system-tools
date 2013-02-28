@@ -7,7 +7,6 @@ from inspect import stack
 from os import path
 from flask import Flask, render_template, request, Response, redirect, send_from_directory
 from werkzeug import secure_filename
-from server.database.api import get_file_params
 
 app = Flask(__name__)
 #db = System.Database.Database(System.config.installation_database)
