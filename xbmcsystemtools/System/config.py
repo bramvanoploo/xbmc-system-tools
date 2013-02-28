@@ -4,9 +4,11 @@ installer_version = "3.0.0"
 
 debug = True
 
-debug_log = "logs/debug.log"
-error_log = "logs/error.log"
-info_log = "logs/info.log"
+installation_path = "/usr/local/share/xbmcsystemtools/xbmcsystemtools/"
+logs_directory = installation_path+"logs/"
+debug_log = logs_directory+"debug.log"
+error_log = logs_directory+"error.log"
+info_log = logs_directory+"info.log"
 
 home_directory = "/home/xbmc/" #command.run("echo $HOME").replace("\n", "")+'/'
 xbmc_user = home_directory.split("/")[3].replace("\n", "")
