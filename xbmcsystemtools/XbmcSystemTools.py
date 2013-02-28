@@ -3,6 +3,7 @@ import json
 import types
 import urllib
 import sys
+import os
 from inspect import stack
 from os import path
 from flask import Flask, render_template, request, Response, redirect, send_from_directory
@@ -39,7 +40,10 @@ def xbmc_backups():
         
 @app.route('/xbmc_backups/download/<path:filename>')
 def download_backup(filename):
-	return send_from_directory(System.config.xbmc_backups_dir, filename)
+    if not os.path.fileExists(System.config.xbmc_backups_dir+filename):
+        abort(404)
+    else:
+        return send_from_directory(System.config.xbmc_backups_dir, filename)
 
 @app.route('/addon_repositories')
 def addon_repositories():
