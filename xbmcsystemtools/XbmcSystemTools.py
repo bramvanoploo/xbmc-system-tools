@@ -11,6 +11,8 @@ from werkzeug import secure_filename
 app = Flask(__name__)
 #db = System.Database.Database(System.config.installation_database)
 
+System.filesystem.create_directory(System.config.log_directory)
+
 try:
     server_port = sys.argv[1]
 except:
