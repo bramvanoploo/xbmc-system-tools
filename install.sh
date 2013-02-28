@@ -7,7 +7,10 @@
 
 clear
 
-echo "* Updating software sources ubuntu, updating operating system and installing requires packages..."
+echo ""
+echo "XBMC System Tools installation script"
+echo ""
+echo "* Updating software sources, upgrading packages and installing requirements..."
 sudo apt-get update > /dev/null 2>&1
 sudo apt-get -y dist-upgrade > /dev/null 2>&1
 sudo apt-get -y install git-core python-software-properties software-properties-common ppa-purge python python-flask python-apt python-beautifulsoup unzip tar > /dev/null 2>&1
