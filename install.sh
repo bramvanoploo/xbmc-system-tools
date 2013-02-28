@@ -13,7 +13,7 @@ echo ""
 echo "* Updating software sources, upgrading packages and installing requirements..."
 sudo apt-get update > /dev/null 2>&1
 sudo apt-get -y dist-upgrade > /dev/null 2>&1
-sudo apt-get -y install git-core python-software-properties software-properties-common ppa-purge python python-flask python-apt python-beautifulsoup unzip tar > /dev/null 2>&1
+sudo apt-get -y install git-core python-software-properties software-properties-common ppa-purge python python-flask python-apt python-beautifulsoup python-git unzip tar > /dev/null 2>&1
 
 echo "* Downloading and configuring Xbmc System Tools as a system service"
 cd /usr/local/share
