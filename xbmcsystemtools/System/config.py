@@ -4,16 +4,16 @@ installer_version = "3.0.0"
 
 debug = True
 
+home_directory = "/home/xbmc/" #command.run("echo $HOME").replace("\n", "")+'/'
+xbmc_user = home_directory.split("/")[3].replace("\n", "")
+temp_directory = home_directory+ "temp/"
+environment_file = "/etc/environment"
+
 installation_path = "/usr/local/share/xbmcsystemtools/xbmcsystemtools/"
 logs_directory = installation_path+"logs/"
 debug_log = logs_directory+"debug.log"
 error_log = logs_directory+"error.log"
 info_log = logs_directory+"info.log"
-
-home_directory = "/home/xbmc/" #command.run("echo $HOME").replace("\n", "")+'/'
-xbmc_user = home_directory.split("/")[3].replace("\n", "")
-temp_directory = home_directory+ "temp/"
-environment_file = "/etc/environment"
 
 xbmc_home_dir = home_directory+ ".xbmc/"
 xbmc_addons_dir = xbmc_home_dir+ "addons/"
