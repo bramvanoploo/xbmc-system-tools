@@ -5,8 +5,9 @@ import urllib
 import sys
 from inspect import stack
 from os import path
-from flask import Flask, render_template, request, Response, redirect
+from flask import Flask, render_template, request, Response, redirect, send_from_directory
 from werkzeug import secure_filename
+from server.database.api import get_file_params
 
 app = Flask(__name__)
 #db = System.Database.Database(System.config.installation_database)
@@ -17,7 +18,7 @@ System.filesystem.create_directory(System.config.xbmc_backups_dir)
 try:
     server_port = sys.argv[1]
 except:
-    server_port = "8090"
+    server_port = "8091"
     pass
 
 def method_exists(method_name):
@@ -36,6 +37,10 @@ def xbmc_backups():
     return render_template('xbmc_backups.html',
         xbmc_dir_size = System.helper.get_readable_size(System.filesystem.get_directory_size(System.config.xbmc_home_dir)),
         backups = System.xbmc.get_existing_backup_url_paths())
+        
+@app.route('/xbmc_backups/download/<path:filename>')
+def download_backup(filename):
+	return send_from_directory(System.config.xbmc_backups_dir, filename, as_attachment=True)
 
 @app.route('/addon_repositories')
 def addon_repositories():

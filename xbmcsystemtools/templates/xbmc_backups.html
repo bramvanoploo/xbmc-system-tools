@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}About XbmControl Installer{% endblock %}
+{% block title %}Backups{% endblock %}
 {% block head %}
     {{ super() }}
     <script type="text/javascript">
@@ -43,7 +43,7 @@
 			});
 
        		$('button.download_backup').bind('click', function(){
-       			window.location.href = $(this).attr('url');
+       			window.location.href = '/xbmc_backups/download/'+$(this).attr('filename');
        		});
 
        		$('button.restore_backup').bind('click', function(){
@@ -158,7 +158,7 @@
 				{{ backup.hr_time }}
 			</td>
 			<td>
-				<button class="small download_backup" url="{{ url_for('static', filename=backup.path) }}">Download</button>
+				<button class="small download_backup" filename="{{ backup.name }}">Download</button>
 				<button class="small restore_backup" name="{{ backup.name }}" date="{{ backup.hr_time }}">Restore</button>
 				&nbsp;
 				<button class="large delete_backup" style="border:1px solid red;" name="{{ backup.name }}" date="{{ backup.hr_time }}">Delete ({{ backup.readable_size }})</button>

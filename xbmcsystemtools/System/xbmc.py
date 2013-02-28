@@ -40,7 +40,6 @@ def get_existing_backup_url_paths():
 
             file_size = os.stat(config.xbmc_backups_dir+file).st_size
             entry = {
-                'path' : config.xbmc_backups_url_path+file,
                 'name' : file,
                 'timestamp' : timestamp,
                 'hr_time' : hr_time,

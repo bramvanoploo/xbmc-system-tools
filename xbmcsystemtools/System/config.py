@@ -1,4 +1,4 @@
-import command
+#import command
 
 installer_version = "3.0.0"
 

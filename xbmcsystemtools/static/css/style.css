@@ -38,11 +38,8 @@ a {
 }
 
 td#steps a:hover {
-    padding-right: 16px;
-}
-
-td#steps a:active {
-    padding-right: 16px;
+    padding-right: 8px;
+    text-decoration: underline;
 }
 
 a.active {
@@ -51,6 +48,11 @@ a.active {
     padding-bottom: 3px;
     padding-right: 16px;
     background: url('../images/arrow_right_12.gif') no-repeat right center;
+}
+
+a.active:hover {
+    padding-right: 16px !important;
+    text-decoration: none !important;
 }
 
 table {
