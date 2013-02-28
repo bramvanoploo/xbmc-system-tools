@@ -22,7 +22,7 @@ function Api() {
 	}
 
 	this.getOperatingSystem = function(pstrTarget) {
-		this.request('ubuntu.getVersion', '', function(poData){
+		this.request('ubuntu.get_version', '', function(poData){
 			if(poData && poData.success) {
 				$(pstrTarget).html(poData.result);
 			}
@@ -30,7 +30,7 @@ function Api() {
 	}
 
 	this.getCpuLoad = function(pstrTarget) {
-		this.request('hardware.getCpuLoad', '', function(poData){
+		this.request('hardware.get_cpu_load', '', function(poData){
 			if(poData && poData.success) {
 				$(pstrTarget).html(poData.result);
 			}
@@ -38,7 +38,7 @@ function Api() {
 	}
 
 	this.getRamInUse = function(pstrTarget) {
-		this.request('hardware.getRamInUse', '', function(poData){
+		this.request('hardware.get_ram_in_use', '', function(poData){
 			if(poData && poData.success) {
 				$(pstrTarget).html(poData.result);
 			}
@@ -46,7 +46,7 @@ function Api() {
 	}
 
 	this.getTotalRam = function(pstrTarget) {
-		this.request('hardware.getTotalRam', '', function(poData){
+		this.request('hardware.get_total_ram', '', function(poData){
 			if(poData && poData.success) {
 				$(pstrTarget).html(poData.result);
 			}
@@ -66,13 +66,13 @@ function Api() {
 	}
 
 	this.aptUpdate = function(pfCallback) {
-		this.request('software.updateSources', '', function(poData){
+		this.request('software.update_sources', '', function(poData){
 			pfCallback(poData);
 		});
 	}
 
 	this.aptDistUpgrade = function(pfCallback) {
-		this.request('software.distUpgrade', '', function(poData){
+		this.request('software.dist_upgrade', '', function(poData){
 			pfCallback(poData);
 		});
 	}
@@ -90,7 +90,7 @@ function Api() {
 	}
 
 	this.getActivePpas = function(pfCallback){
-		this.request('ppa.getActive', '', function(poData){
+		this.request('ppa.get_active', '', function(poData){
 			var laResult = (poData && poData.success)? poData.result : [];
 			pfCallback(laResult);
 		});
@@ -115,25 +115,25 @@ function Api() {
 	}
 
 	this.installAddonRepositoryFromUrl = function(pstrUrl, pstrFileName, pfCallback){
-		this.request('xbmc.installRepository', '"' +encodeURI(pstrUrl)+ '","' +encodeURI(pstrFileName)+ '"', function(poData){
+		this.request('xbmc.install_repository', '"' +encodeURI(pstrUrl)+ '","' +encodeURI(pstrFileName)+ '"', function(poData){
 			pfCallback(poData);
 		});
 	}
 
 	this.backupXbmcConfig = function(pfCallback) {
-		this.request('xbmc.backupConfig', '', function(poData){
+		this.request('xbmc.backup_config', '', function(poData){
 			return (poData && poData.success)? pfCallback(poData.success) : pfCallback(false);
 		});
 	}
 
 	this.deleteBackup = function(pstrFileName, pfCallback){
-		this.request('xbmc.deleteBackup', '"' +encodeURI(pstrFileName)+ '"', function(poData){
+		this.request('xbmc.delete_backup', '"' +encodeURI(pstrFileName)+ '"', function(poData){
 			return (poData && poData.success)? pfCallback(poData.success) : pfCallback(false);
 		});
 	}
 
 	this.restoreBackup = function(pstrFileName, pfCallback){
-		this.request('xbmc.restoreBackup', '"' +encodeURI(pstrFileName)+ '"', function(poData){
+		this.request('xbmc.restore_backup', '"' +encodeURI(pstrFileName)+ '"', function(poData){
 			return (poData && poData.success)? pfCallback(poData.success) : pfCallback(false);
 		});
 	}

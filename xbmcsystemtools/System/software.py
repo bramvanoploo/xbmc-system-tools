@@ -1,7 +1,10 @@
-import apt, apt_pkg, command, log
+import apt
+import apt_pkg
+import command
+import log
 from inspect import stack
 
-def updateSources():
+def update_sources():
     try:
         apt_cache = apt.cache.Cache()
         apt_cache.update()
@@ -12,7 +15,7 @@ def updateSources():
         log.error('AttributeError: ' +str(e), stack()[0][3])
         return False
 
-def distUpgrade():
+def dist_upgrade():
     apt_cache = apt.cache.Cache()
     apt_cache.update()
     apt_cache.open(None)
@@ -21,16 +24,15 @@ def distUpgrade():
     apt_cache.close()
     return success
 
-def install(packageName):
+def install(package_name):
     apt_pkg.init()
     apt_pkg.PkgSystemLock()
     apt_cache = apt.cache.Cache()
-    pkg = apt_cache[packageName.strip()]
-
-    if packageName.strip() in apt_cache:
+    pkg = apt_cache[package_name.strip()]
+    if package_name.strip() in apt_cache:
         if pkg.isInstalled:
             apt_pkg.PkgSystemUnLock()
-            log.info('Trying to install a package that is already installed (' +packageName.strip()+ ')', stack()[0][3])
+            log.info('Trying to install a package that is already installed (' +package_name.strip()+ ')', stack()[0][3])
             apt_cache.close()
             return False
         else:
@@ -46,19 +48,18 @@ def install(packageName):
                 return False
     else:
         apt_cache.close()
-        log.error('Unknown package selected (' +packageName.strip()+ ')', stack()[0][3])
+        log.error('Unknown package selected (' +package_name.strip()+ ')', stack()[0][3])
         return False
 
-def remove(packageName, purge = False):
+def remove(package_name, purge = False):
     apt_pkg.init()
     apt_pkg.PkgSystemLock()
     apt_cache = apt.cache.Cache()
-    pkg = apt_cache[packageName.strip()]
-
-    if packageName.strip() in apt_cache:
+    pkg = apt_cache[package_name.strip()]
+    if package_name.strip() in apt_cache:
         if not pkg.isInstalled:
             apt_pkg.PkgSystemUnLock()
-            log.info('Trying to uninstall a package that is not installed (' +packageName.strip()+ ')', stack()[0][3])
+            log.info('Trying to uninstall a package that is not installed (' +package_name.strip()+ ')', stack()[0][3])
             return False
         else:
             pkg.mark_delete(purge)
@@ -73,42 +74,39 @@ def remove(packageName, purge = False):
                 return False
     else:
         apt_cache.close()
-        log.info('Unknown package selected (' +packageName.strip()+ ')', stack()[0][3])
+        log.info('Unknown package selected (' +package_name.strip()+ ')', stack()[0][3])
         return False
 
-def autoClean():
+def auto_clean():
     return command.run('sudo apt-get -y autoclean', True)
 
-def autoRemove():
+def auto_remove():
     return command.run('sudo apt-get -y autoremove', True)
 
-def search(packageName, installedPackes):
+def search(package_name, installed_packes):
     apt_cache = apt.cache.Cache()
     packages = apt_cache.keys()
-    if installedPackes:
-        result = [value for value in packages if apt_cache[value].isInstalled and packageName.strip() in value]
+    if installed_packes:
+        result = [value for value in packages if apt_cache[value].isInstalled and package_name.strip() in value]
     else:
-        result = [value for value in packages if not apt_cache[value].isInstalled and packageName.strip() in value]
+        result = [value for value in packages if not apt_cache[value].isInstalled and package_name.strip() in value]
     apt_cache.close()
-
     return sorted(result)
 
-def isPackageInstalled(packageName):
+def is_package_installed(package_name):
     apt_cache = apt.cache.Cache()
     apt_cache.open()
-    if packageName.strip() in cache and cache[packageName.strip()].is_installed:
+    if package_name.strip() in cache and cache[package_name.strip()].is_installed:
         apt_cache.close()
         return True
     apt_cache.close()
-
     return False
 
-def packageExists(packageName):
+def package_exists(package_name):
     apt_cache = apt.cache.Cache()
     apt_cache.open()
-    if packageName.strip() in cache:
+    if package_name.strip() in cache:
         apt_cache.close()
         return True
     apt_cache.close()
-
     return False

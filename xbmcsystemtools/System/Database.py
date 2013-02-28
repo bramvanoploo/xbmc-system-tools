@@ -9,7 +9,7 @@ class Database:
     def set(self, category, key, value):
         s = shelve.open(self.__dbFile, writeback = True)
         try:
-            if not self.categoryExists(category):
+            if not self.category_exists(category):
                 s[category] = {}
                 print s[category]
             s[category][key] = value
@@ -26,13 +26,13 @@ class Database:
             s.close()
         return value
 
-    def categoryExists(self, category):
+    def category_exists(self, category):
         s = shelve.open(self.__dbFile, writeback = True)
         if s.has_key(category):
             return True
         return False
 
-    def keyExists(self, category, key):
+    def key_exists(self, category, key):
         s = shelve.open(self.__dbFile, writeback = True)
         if s.has_key(category) and s[category].has_key(key):
             return True

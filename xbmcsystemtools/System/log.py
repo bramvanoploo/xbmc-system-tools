@@ -1,4 +1,5 @@
-import config, datetime
+import config
+import datetime
 
 def debug(message, method = ''):
     if config.debug:

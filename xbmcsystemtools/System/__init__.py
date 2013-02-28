@@ -8,5 +8,5 @@ import hardware
 import ubuntu
 import software
 import ppa
-import fileSystem
+import filesystem
 import xbmc

@@ -1,4 +1,7 @@
-import System, json, types, urllib
+import System
+import json
+import types
+import urllib
 from inspect import stack
 from os import path
 from flask import Flask, render_template, request, Response, redirect
@@ -7,9 +10,9 @@ from werkzeug import secure_filename
 app = Flask(__name__)
 db = System.Database.Database(System.config.installation_database)
 
-def methodExists(methodName):
+def method_exists(method_name):
     try:
-        ret = type(eval(methodName))
+        ret = type(eval(method_name))
         return ret in (types.FunctionType, types.BuiltinFunctionType)
     except AttributeError:
         return False
@@ -21,28 +24,28 @@ def index():
 @app.route('/xbmc_backups')
 def xbmc_backups():
     return render_template('xbmc_backups.html',
-        xbmc_dir_size = System.helper.getReadableSize(System.fileSystem.getDirectorySize(System.config.xbmc_home_dir)),
-        backups = System.xbmc.getExistingBackupUrlPaths())
+        xbmc_dir_size = System.helper.get_readable_size(System.filesystem.get_directory_size(System.config.xbmc_home_dir)),
+        backups = System.xbmc.get_existing_backup_url_paths())
 
 @app.route('/addon_repositories')
 def addon_repositories():
     return render_template('addon_repositories.html',
-        repositories = System.xbmc.getInstallableRepositories())
+        repositories = System.xbmc.get_installable_repositories())
 
 @app.route('/system_info')
 def system():
     return render_template('system_info.html',
-        os                  = System.ubuntu.getVersion(),
-        kernel              = System.ubuntu.getKernelVersion(),
-        gpu_manufacturer    = System.hardware.getGpuManufacturer(),
-        gpu_type            = System.hardware.getGpuType(),
-        resolution          = System.hardware.getCurrentResolution(),
-        max_resolution      = System.hardware.getMaximumResolution(),
-        cpu_type            = System.hardware.getCpuType(),
-        cpu_core_count      = System.hardware.getCpuCoreCount(),
-        cpu_load            = System.hardware.getCpuLoad(),
-        total_ram           = System.hardware.getTotalRam(),
-        ram_in_use          = System.hardware.getRamInUse())
+        os                  = System.ubuntu.get_version(),
+        kernel              = System.ubuntu.get_kernel_version(),
+        gpu_manufacturer    = System.hardware.get_gpu_manufacturer(),
+        gpu_type            = System.hardware.get_gpu_type(),
+        resolution          = System.hardware.get_current_resolution(),
+        max_resolution      = System.hardware.get_maximum_resolution(),
+        cpu_type            = System.hardware.get_cpu_type(),
+        cpu_core_count      = System.hardware.get_cpu_core_count(),
+        cpu_load            = System.hardware.get_cpu_load(),
+        total_ram           = System.hardware.get_total_ram(),
+        ram_in_use          = System.hardware.get_ram_in_use())
 
 @app.route('/prepare_system')
 def prepare_system():
@@ -59,9 +62,9 @@ def system_tools():
 
 @app.route('/upload_backup',  methods=['POST'])
 def upload_backup():
-    backupFile = request.files['backup_file']
-    backupFileName = secure_filename(backupFile.filename)
-    backupFile.save(path.join(System.config.xbmc_backups_dir, backupFileName))
+    backup_file = request.files['backup_file']
+    backup_file_name = secure_filename(backup_file.filename)
+    backup_file.save(path.join(System.config.xbmc_backups_dir, backup_file_name))
     return redirect('/xbmc_backups', 301)
 
 @app.route('/api')
@@ -70,19 +73,16 @@ def api():
         'success' : False,
         'message' : 'Request not executed'
     }
-
-    if 'method' in request.args and methodExists('System.'+request.args['method']):
-        fullRequest = None
+    if 'method' in request.args and method_exists('System.'+request.args['method']):
+        full_request = None
         if 'params' in request.args and request.args['params'] != '':
-            fullRequest = 'System.'+urllib.unquote(request.args['method'])+'(' +urllib.unquote(request.args['params'])+ ')'
+            full_request = 'System.'+urllib.unquote(request.args['method'])+'(' +urllib.unquote(request.args['params'])+ ')'
         else:
-            fullRequest = 'System.'+urllib.unquote(request.args['method'])+'()'
+            full_request = 'System.'+urllib.unquote(request.args['method'])+'()'
 
-        System.log.debug('request:' +fullRequest, stack()[0][3])
-
+        System.log.debug('request:' +full_request, stack()[0][3])
         try:
-            data = eval(fullRequest)
-
+            data = eval(full_request)
             if isinstance(data, bool):
                 if not data:
                     result = {
@@ -123,13 +123,10 @@ def api():
                 'success' : False,
                 'message' : 'An unknown error occurred'
             }
-
-    jsonResult = json.dumps(result)
-
-    System.log.debug('result:' +jsonResult, stack()[0][3])
-
-    response = Response(jsonResult, status=200, mimetype='application/json')
+    json_result = json.dumps(result)
+    System.log.debug('result:' +json_result, stack()[0][3])
+    response = Response(json_result, status=200, mimetype='application/json')
     return response
 
 if __name__ == '__main__':
-    app.run(host=System.network.getLocalIpAddress(), port=80, debug=True)
+    app.run(host=System.network.get_local_ip_address(), port=80, debug=True)

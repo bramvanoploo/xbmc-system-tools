@@ -266,7 +266,7 @@
 			    dataType: 'json',
 			    cache: false,
 			    source: function (request, response) {
-			        $.getJSON('/api?method=ppa.getActive&params="' +$.trim($('#removePpaName').val())+ '"',
+			        $.getJSON('/api?method=ppa.get_active&params="' +$.trim($('#removePpaName').val())+ '"',
 			        	function (data) {
 			            	response($.map(data.result, function(entry) {
 				                return {
@@ -398,7 +398,7 @@
 			* Maintenance methods
 			*/
 			$('#aptAutoClean').bind('click', function(){
-				api.request('software.autoClean', '', function(poResult){
+				api.request('software.auto_clean', '', function(poResult){
 					if(poResult && poResult.success) {
 						$.notify_osd.create({
 							'text': 'Software managers cache successfully emptied'
@@ -415,7 +415,7 @@
 			});
 
 			$('#aptAutoRemove').bind('click', function(){
-				api.request('software.autoRemove', '', function(poResult){
+				api.request('software.auto_remove', '', function(poResult){
 					if(poResult && poResult.success) {
 						$.notify_osd.create({
 							'text': 'Obsolete software has successfully been removed'
