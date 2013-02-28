@@ -7,7 +7,7 @@
 
 clear
 
-echo "* Preparing ubuntu..."
+echo "* Updating software sources ubuntu, updating operating system and installing requires packages..."
 sudo apt-get update > /dev/null 2>&1
 sudo apt-get -y dist-upgrade > /dev/null 2>&1
 sudo apt-get -y install git-core python-software-properties software-properties-common ppa-purge python python-flask python-apt python-beautifulsoup unzip tar > /dev/null 2>&1
@@ -24,5 +24,5 @@ sudo service xbmcsystemtools start
 SYSTEM_IP = ifconfig eth0 | grep 'inet addr' | cut -d: -f2 | awk '{print $1}'
 
 echo "* Xbmc System Tools has successfully been installed."
-echo "* Please open the following address http://$SYSTEM_IP:8090 in your browser"
+echo "* Please open the following address http://" $SYSTEM_IP ":8090 in your browser"
 exit
