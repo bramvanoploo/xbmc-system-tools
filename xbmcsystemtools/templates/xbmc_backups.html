@@ -20,11 +20,11 @@
 							'Yes': function() {
 								$(this).dialog("close");
 
-								showLoading('Your xbmc configuration is being backed up. This will most likely take a while depending on the speed of your computer and the size of your XBMC directory.<br /><br /><b>Please be patient and do not interrupt the process!</b>');
+								showLoading('Your xbmc configuration is being backed up. This will most likely take quite some time depending on the speed of your computer and the size of your XBMC directory.<br /><br /><b>Please be patient and do not interrupt the process!</b>');
 
 								api.backupXbmcConfig(function(pbSuccess){
 									$.notify_osd.create({
-										'text': (pbSuccess)? window.location.reload() : 'ERROR: XBMC configuration backup could not be created.'
+										text: (pbSuccess)? window.location.reload() : 'ERROR: XBMC configuration backup could not be created.'
 									});
 
 									hideLoading();
@@ -32,7 +32,7 @@
 							},
 							'No': function() {
 								$.notify_osd.create({
-									'text': 'Creating backup cancelled.'
+									text: 'Creating backup cancelled.'
 								});
 
 							  	$(this).dialog("close");
@@ -51,7 +51,7 @@
        			var lstrBackupDate = $(this).attr('date');
 
        			$('<div title="Confirm restoring backup"></div>')
-					.html('Are you sure you want to restore the backup from ' +lstrBackupDate+ '?<br /><br /><b>This action wil overwrite your current configuration! Do not interrupt the process!</b>')
+					.html('Are you sure you want to restore the backup from ' +lstrBackupDate+ '?<br /><br /><b>This action wil overwrite your current configuration. Please be patient and do not interrupt the process!</b>')
 					.appendTo('body')
 					.dialog({
 						resizable: false,
@@ -64,7 +64,7 @@
 							},
 							'No': function() {
 								$.notify_osd.create({
-									'text': 'Restoring backup cancelled.'
+									text: 'Restoring backup cancelled.'
 								});
 
 							  	$(this).dialog("close");
@@ -95,7 +95,7 @@
 								api.deleteBackup(lstrBackupName, function(pbSuccess){
 									hideLoading();
 									$.notify_osd.create({
-										'text': (pbSuccess)? 'Backup successfully deleted.' : 'ERROR: Backup could not be deleted.'
+										text: (pbSuccess)? 'Backup successfully deleted.' : 'ERROR: Backup could not be deleted.'
 									});
 
 									if(pbSuccess) {
@@ -105,7 +105,7 @@
 							},
 							'No': function() {
 								$.notify_osd.create({
-									'text': 'Deleting backup cancelled.'
+									text: 'Deleting backup cancelled.'
 								});
 
 							  	$(this).dialog("close");
