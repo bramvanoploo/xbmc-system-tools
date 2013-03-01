@@ -4,7 +4,7 @@
     <head>
         {% block head %}
         <title>
-            {% block title %}{% endblock %} - XBMC System Tools
+            {% block title %}{% endblock %} - XSYST
         </title>
         <link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400' rel='stylesheet' type='text/css' />
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/xbmc-installer-theme/jquery-ui-1.10.1.custom.min.css') }}" />
@@ -77,8 +77,7 @@
                        if(poIsAvailable) {
                            clearInterval(loUpdateChecker);
                            $.notify_osd.create({
-                                text: 'USoftware update available.<br />Click <a href="/update">here</a> to start updating...',
-                                sticky: true
+                                text: 'Software update available.'
                             });
                        }
                    });
@@ -89,7 +88,7 @@
     </head>
 <body>
     <h1>
-    	XBMC System Tools
+    	XSYST - XBMC System Tools
     </h1>
     <center>
         <table width="990" cellspacing="0" cellpadding="0" class="main_structure">
@@ -134,6 +133,9 @@
                             <a href="/system_info" {% if request.path == "/system_info" %}class="active"{% endif %}>Information</a>
                         </li>
                     </ul>
+                    <br />
+                    <br />
+                    <a href="/about" {% if request.path == "/about" %}class="active"{% endif %}>About</a>
                 </td>
                 <td id="content">
                 	<div id="contentWrapper">

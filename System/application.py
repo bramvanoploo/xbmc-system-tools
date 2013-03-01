@@ -26,3 +26,8 @@ def is_update_available():
     except:
         log.debug('Could not check for new version of software', stack()[0][3])
         return False
+    
+def get_version():
+    repo = git.Repo(config.root_path)
+    local_commit = repo.commit()
+    return config.version + ' - git ' +local_commit.hexsha

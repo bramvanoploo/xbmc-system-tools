@@ -73,7 +73,8 @@ def prepare_system():
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html',
+        application_version = System.application.get_version())
 
 @app.route('/system_tools')
 def system_tools():

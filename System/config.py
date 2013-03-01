@@ -1,6 +1,6 @@
 #import command
 
-installer_version = "3.0.0"
+version = "0.5.0"
 
 debug = True
 
