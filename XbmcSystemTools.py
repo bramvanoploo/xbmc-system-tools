@@ -33,7 +33,7 @@ def index():
     return redirect('/system_info', 301)
 
 @app.route('/update')
-def index():
+def update():
     return 'Updated' if System.application.update() else 'Error updating'
 
 @app.route('/xbmc_backups')
