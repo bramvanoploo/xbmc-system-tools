@@ -142,9 +142,9 @@ function Api() {
 		});
 	};
     
-    this.getApplicationUpdateCount = function(pfCallback) {
-        this.request('application.get_commit_count', '', function(poData){
-			pfCallback(poData);
+    this.isUpdateAvailable = function(pfCallback) {
+        this.request('application.is_update_available', '', function(poData){
+			return (poData && poData.success && poData.result === true)? pfCallback(true) : pfCallback(false);
 		});
     };
 }

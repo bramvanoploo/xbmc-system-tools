@@ -23,7 +23,8 @@ def get_cpu_type():
             return re.sub( ".*model name.*:", "", line,1)
           
 def get_cpu_load():
-    return command.run("ps aux|awk 'NR > 0 { s +=$3 }; END {print s}'")
+    cpu_load = command.run("ps aux|awk 'NR > 0 { s +=$3 }; END {print s}'")
+    return cpu_load.strip().replace("\n", "")
     
 def get_cpu_core_count():
     return multiprocessing.cpu_count()

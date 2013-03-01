@@ -90,9 +90,9 @@ def upload_backup():
 def api():
     result = {
         'success' : False,
-        'message' : 'Request not executed'
+        'message' : 'Request not executed (System.'+urllib.unquote(request.args['method'])+'(' +urllib.unquote(request.args['params'])+ '))'
     }
-    if 'method' in request.args and method_exists('System.'+request.args['method']):
+    if 'method' in request.args and method_exists('System.'+urllib.unquote(request.args['method'])):
         full_request = None
         if 'params' in request.args and request.args['params'] != '':
             full_request = 'System.'+urllib.unquote(request.args['method'])+'(' +urllib.unquote(request.args['params'])+ ')'

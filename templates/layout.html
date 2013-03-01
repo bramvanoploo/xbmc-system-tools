@@ -73,11 +73,11 @@
         	    });
                 
                 var loUpdateChecker = setInterval(function(){
-                   api.getApplicationUpdateCount(function(poData){
-                       if(poData && poData.success && poData.result > 0) {
+                   api.isUpdateAvailable(function(poIsAvailable){
+                       if(poIsAvailable) {
                            clearInterval(loUpdateChecker);
                            $.notify_osd.create({
-                                text: 'Update(s) is available (' +poData.result+ ' commits behind).<br />Click <a href="/update">here</a> to start updating...',
+                                text: 'USoftware update available.<br />Click <a href="/update">here</a> to start updating...',
                                 sticky: true
                             });
                        }

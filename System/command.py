@@ -11,10 +11,10 @@ def run(command, returnBool = False):
                 close_fds=True)
     output, error = process.communicate()
     if error.strip():
-        log.error(error, stack()[0][3])
+        log.error(error.strip(), stack()[0][3])
         return False
     log.debug(output.strip(), stack()[0][3])
-    output = True if not output else output
+    output = True if not output else output.strip()
     return True if returnBool else output
 
 
