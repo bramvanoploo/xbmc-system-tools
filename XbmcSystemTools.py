@@ -4,7 +4,6 @@ import types
 import urllib
 import sys
 import os
-import atexit
 from inspect import stack
 from os import path
 from flask import Flask, render_template, request, Response, redirect, send_file
@@ -147,11 +146,6 @@ def api():
     System.log.debug('result:' +json_result, stack()[0][3])
     response = Response(json_result, status=200, mimetype='application/json')
     return response
-
-def stop_server():
-    app.stop()
-
-atexit.register(stop_server)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=int(server_port), debug=True)

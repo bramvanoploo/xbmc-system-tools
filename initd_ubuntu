@@ -20,6 +20,7 @@ start() {
 stop() {
     if [ -e "$PID_PATH/$PROG.pid" ]; then
         killall $PROG
+        killall python
 
         rm "$PID_PATH/$PROG.pid"
 
