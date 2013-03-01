@@ -17,12 +17,12 @@ sudo apt-get -y install git-core python-software-properties software-properties-
 
 echo "* Downloading and configuring Xbmc System Tools as a system service"
 cd /usr/local/share
-sudo git clone -q https://github.com/Bram77/xbmc-system-tools.git xbmcsystemtools > /dev/null 2>&1
+sudo git clone -q https://github.com/Bram77/xbmc-system-tools.git xsyst > /dev/null 2>&1
 cd ./xbmcsystemtools > /dev/null 2>&1
-sudo cp ./initd_ubuntu /etc/init.d/xbmcsystemtools > /dev/null 2>&1
-sudo chmod +x /etc/init.d/xbmcsystemtools > /dev/null 2>&1
-sudo update-rc.d xbmcsystemtools defaults > /dev/null 2>&1
-sudo service xbmcsystemtools start
+sudo cp ./initd_ubuntu /etc/init.d/xsyst > /dev/null 2>&1
+sudo chmod +x /etc/init.d/xsyst > /dev/null 2>&1
+sudo update-rc.d xsyst defaults > /dev/null 2>&1
+sudo service xsyst start
 
 SYSTEM_IP=$(ifconfig eth0 | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')
 
