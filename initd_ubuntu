@@ -8,8 +8,7 @@ SERVER_PORT="8091"
 
 start() {
     if [ -e "$PID_PATH/$PROG.pid" ]; then
-        ## Program is running, exit with error.
-        echo "Error! $PROG is currently running!" 1>&2
+        echo "Error! $PROG is already running!" 1>&2
         exit 1
     else
         python $PROG_PATH/$PROG $SERVER_PORT 2>&1 >/dev/null &
