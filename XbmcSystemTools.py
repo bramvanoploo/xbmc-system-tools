@@ -4,8 +4,6 @@ import types
 import urllib
 import sys
 import os
-import atexit
-import multiprocessing
 from inspect import stack
 from os import path
 from flask import Flask, render_template, request, Response, redirect, send_file
@@ -20,15 +18,8 @@ System.filesystem.create_directory(System.config.xbmc_backups_dir)
 try:
     server_port = sys.argv[1]
 except:
-    server_port = "8091"
+    server_port = "8092"
     pass
-
-def start_server():
-    app.run(host="0.0.0.0", port=int(server_port), debug=True)
-
-def kill_server():
-    server.terminate()
-    server.join()
 
 def method_exists(method_name):
     try:
@@ -156,8 +147,5 @@ def api():
     response = Response(json_result, status=200, mimetype='application/json')
     return response
 
-server = multiprocessing.Process(target=start_server)
-atexit.register(kill_server)
-    
 if __name__ == '__main__':
-    server.start()
+    app.run(host="0.0.0.0", port=int(server_port), debug=True)
