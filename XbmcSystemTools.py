@@ -4,12 +4,16 @@ import types
 import urllib
 import sys
 import os
+import atexit
+import multiprocessing
 from inspect import stack
 from os import path
 from flask import Flask, render_template, request, Response, redirect, send_file
 from werkzeug import secure_filename
 
 app = Flask(__name__)
+server = multiprocessing.Process(target=run_server)
+atexit.register(kill_server)
 #db = System.Database.Database(System.config.installation_database)
 
 System.filesystem.create_directory(System.config.log_directory)
@@ -147,5 +151,12 @@ def api():
     response = Response(json_result, status=200, mimetype='application/json')
     return response
 
+def run_server():
+    app.run(host="0.0.0.0", port=int(server_port), debug=True)
+
+def kill_server():
+    server.terminate()
+    server.join()
+    
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=int(server_port), debug=False)
+    server.start()

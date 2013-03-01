@@ -25,7 +25,7 @@ stop() {
 
         echo "$PROG stopped"
     else
-        echo "Error! $PROG not started!" 1>&2
+        echo "Couldn't stop service. $PROG is not running." 1>&2
         exit 1
     fi
 }
