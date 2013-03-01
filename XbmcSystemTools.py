@@ -12,8 +12,6 @@ from flask import Flask, render_template, request, Response, redirect, send_file
 from werkzeug import secure_filename
 
 app = Flask(__name__)
-server = multiprocessing.Process(target=run_server)
-atexit.register(kill_server)
 #db = System.Database.Database(System.config.installation_database)
 
 System.filesystem.create_directory(System.config.log_directory)
@@ -24,6 +22,13 @@ try:
 except:
     server_port = "8091"
     pass
+
+def start_server():
+    app.run(host="0.0.0.0", port=int(server_port), debug=True)
+
+def kill_server():
+    server.terminate()
+    server.join()
 
 def method_exists(method_name):
     try:
@@ -151,12 +156,8 @@ def api():
     response = Response(json_result, status=200, mimetype='application/json')
     return response
 
-def run_server():
-    app.run(host="0.0.0.0", port=int(server_port), debug=True)
-
-def kill_server():
-    server.terminate()
-    server.join()
+server = multiprocessing.Process(target=start_server)
+atexit.register(kill_server)
     
 if __name__ == '__main__':
     server.start()
