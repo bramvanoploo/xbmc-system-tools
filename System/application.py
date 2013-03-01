@@ -35,7 +35,6 @@ def repo_changes(remote_commit):
     next_parent = None
     yield remote_commit
     while len(remote_commit.parents) > 0:
-        same_parent(remote_commit.parents)
         for parent in remote_commit.parents:
             yield parent
             next_parent = parent

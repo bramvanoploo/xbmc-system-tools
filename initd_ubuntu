@@ -2,7 +2,7 @@
 
 ## Fill in name of program here.
 PROG="XbmcSystemTools.py"
-PROG_PATH="/usr/local/share/xbmcsystemtools/xbmcsystemtools"
+PROG_PATH="/usr/local/share/xbmcsystemtools"
 PID_PATH="/var/run/"
 SERVER_PORT="8091"
 

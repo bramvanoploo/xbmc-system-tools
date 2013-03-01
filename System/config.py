@@ -10,7 +10,7 @@ temp_directory = home_directory+ "temp/"
 environment_file = "/etc/environment"
 
 root_path = "/usr/local/share/xbmcsystemtools/"
-installation_path = root_path+"xbmcsystemtools/"
+installation_path = root_path
 log_directory = installation_path+"logs/"
 debug_log = log_directory+"debug.log"
 error_log = log_directory+"error.log"
