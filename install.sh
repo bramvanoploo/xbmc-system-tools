@@ -27,5 +27,5 @@ sudo service xsyst start
 SYSTEM_IP=$(ifconfig eth0 | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')
 
 echo "* Xbmc System Tools has successfully been installed."
-echo "* Please open the following address http://"$SYSTEM_IP":8091 in your browser"
+echo "* Please open the following address http://"$SYSTEM_IP":8092 in your browser"
 exit

@@ -4,7 +4,7 @@
 PROG="XbmcSystemTools.py"
 PROG_PATH="/usr/local/share/xsyst"
 PID_PATH="/var/run/"
-SERVER_PORT="8091"
+SERVER_PORT="8092"
 
 start() {
     if [ -e "$PID_PATH/$PROG.pid" ]; then
