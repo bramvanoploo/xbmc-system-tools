@@ -22,7 +22,10 @@ def is_update_available():
         remote = git.remote.Remote(repo, 'origin')
         remote_info = remote.fetch()[0]
         remote_commit = remote_info.commit
-        return True if not local_commit.hexsha is remote_commit.hexsha else False
+        if local_commit.hexsha is remote_commit.hexsha:
+            return False
+        else:
+            return True
     except:
         log.debug('Could not check for new version of software', stack()[0][3])
         return False
