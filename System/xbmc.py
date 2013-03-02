@@ -13,14 +13,14 @@ from inspect import stack
 def backup_config():
     fileName = str(int(time.time()))+'_xbmc_backup.tar.gz'
     backupPath = config.xbmc_backups_dir+fileName
-    if command.run('tar -czf "' +backupPath+ '" -C "' +config.home_directory+ '" ".xbmc"', True):
+    if command.run('tar -czf "' +backupPath+ '" -C "' +config.home_dir+ '" ".xbmc"', True):
         return True
     return False
 
 def restore_backup(backup_file):
     filePath = config.xbmc_backups_dir+backup_file
     filesystem.delete_directory(config.xbmc_home_dir)
-    if command.run('tar -zxf "' +filePath+ '" -C "' +config.home_directory, True):
+    if command.run('tar -zxf "' +filePath+ '" -C "' +config.home_dir, True):
         return True
     return False
 

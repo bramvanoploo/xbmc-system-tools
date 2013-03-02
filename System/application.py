@@ -6,7 +6,7 @@ from inspect import stack
 
 def update():
     try:
-        repo = git.Repo(config.root_path)
+        repo = git.Repo(config.app_root_path)
         remote = git.remote.Remote(repo, 'origin')
         remote.pull()
         log.debug('Successfully updated local repository', stack()[0][3])
@@ -17,7 +17,7 @@ def update():
     
 def is_update_available():
     try:
-        repo = git.Repo(config.root_path)
+        repo = git.Repo(config.app_root_path)
         local_commit = repo.commit()
         remote = git.remote.Remote(repo, 'origin')
         remote_info = remote.fetch()[0]
@@ -31,6 +31,6 @@ def is_update_available():
         return False
     
 def get_version():
-    repo = git.Repo(config.root_path)
+    repo = git.Repo(config.app_root_path)
     local_commit = repo.commit()
     return config.version + ' - git ' +local_commit.hexsha
