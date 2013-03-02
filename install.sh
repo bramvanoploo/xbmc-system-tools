@@ -17,14 +17,14 @@ sudo apt-get -y install git-core python-software-properties software-properties-
 
 echo "* Downloading and configuring Xbmc System Tools as a system service"
 
-PROGRAM_PATH = $HOME"/.xsyst"
-INITD_PATH = "/etc/init.d/xsyst"
+PROGRAM_PATH=$HOME"/.xsyst"
+INITD_PATH="/etc/init.d/xsyst"
 
 cd ~
-sudo git clone -q https://github.com/Bram77/xbmc-system-tools.git .xsyst > /dev/null 2>&1
+git clone -q https://github.com/Bram77/xbmc-system-tools.git .xsyst > /dev/null 2>&1
 cd $PROGRAM_PATH
 sudo cp $PROGRAM_PATH"/initd_ubuntu" $INITD_PATH > /dev/null 2>&1
-sudo sed -i "s/{{program_path}}/$PROGRAM_PATH/g" $INITD_PATH
+sudo sed -i "s/{{program_path}}/"$PROGRAM_PATH"/g" $INITD_PATH
 sudo chmod +x $INITD_PATH > /dev/null 2>&1
 sudo update-rc.d xsyst defaults > /dev/null 2>&1
 sudo service xsyst start
