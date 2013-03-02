@@ -14,8 +14,8 @@ db.set('config', 'app_root_path', os.path.dirname(os.path.abspath(__file__))+'/'
 
 from System import config
 
-filesystem.create_directory(config.logs_dir)
-filesystem.create_directory(config.xbmc_backups_dir)
+filesystem.create_directory(db.get('config', 'app_root_path')+config.logs_dir)
+filesystem.create_directory(db.get('config', 'app_root_path')+config.xbmc_backups_dir)
 
 app = Flask(__name__)
 
