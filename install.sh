@@ -19,12 +19,14 @@ echo "* Downloading and configuring Xbmc System Tools as a system service"
 
 PROGRAM_PATH=$HOME"/.xsyst"
 INITD_PATH="/etc/init.d/xsyst"
+INITD_PATH_VAR="|program_path|"
 
 cd ~
 git clone -q https://github.com/Bram77/xbmc-system-tools.git .xsyst > /dev/null 2>&1
 cd $PROGRAM_PATH
+git pull > /dev/null 2>&1
 sudo cp $PROGRAM_PATH"/initd_ubuntu" $INITD_PATH > /dev/null 2>&1
-sudo sed -i "s/{{program_path}}/"$PROGRAM_PATH"/g" $INITD_PATH
+eval "sudo sed -i s/$INITD_PATH_VAR/$PROGRAM_PATH/g $INITD_PATH"
 sudo chmod +x $INITD_PATH > /dev/null 2>&1
 sudo update-rc.d xsyst defaults > /dev/null 2>&1
 sudo service xsyst start
