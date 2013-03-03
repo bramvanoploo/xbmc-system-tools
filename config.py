@@ -1,5 +1,5 @@
 #import command
-import Database
+from System import Database
 
 db = Database.Database('app.db')
 

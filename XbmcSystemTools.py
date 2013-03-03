@@ -12,7 +12,7 @@ from System import helper, filesystem, Database, xbmc, ubuntu, hardware, applica
 db = Database.Database('app.db')
 db.set('config', 'app_root_path', os.path.dirname(os.path.abspath(__file__))+'/')
 
-from System import config
+import config
 
 filesystem.create_directory(db.get('config', 'app_root_path')+config.logs_dir)
 filesystem.create_directory(db.get('config', 'app_root_path')+config.xbmc_backups_dir)
