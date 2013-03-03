@@ -1,7 +1,7 @@
 #import command
 import Database
 
-db = Database.Database('../app.db')
+db = Database.Database('app.db')
 
 version = "0.5.0"
 debug = True
