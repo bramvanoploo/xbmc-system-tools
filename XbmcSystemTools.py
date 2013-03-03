@@ -7,15 +7,15 @@ from inspect import stack
 from os import path
 from flask import Flask, render_template, request, Response, redirect, send_file
 from werkzeug import secure_filename
-from System import helper, filesystem, Database, xbmc, ubuntu, hardware, application
+from System import *
 
-db = Database.Database('app.db')
-db.set('config', 'app_root_path', os.path.dirname(os.path.abspath(__file__))+'/')
+current_dir = os.path.dirname(os.path.abspath(__file__))+'/'
+filesystem.create_directory(current_dir+'logs')
+filesystem.create_directory(current_dir+'static/backups')
+filesystem.create_directory(current_dir+'database')
 
-import config
-
-filesystem.create_directory(db.get('config', 'app_root_path')+config.logs_dir)
-filesystem.create_directory(db.get('config', 'app_root_path')+config.xbmc_backups_dir)
+db = Database.Database(current_dir+'database/app.db')
+db.set('config', 'app_root_path', current_dir)
 
 app = Flask(__name__)
 
