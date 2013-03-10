@@ -9,13 +9,10 @@ from flask import Flask, render_template, request, Response, redirect, send_file
 from werkzeug import secure_filename
 from System import *
 
-current_dir = os.path.dirname(os.path.abspath(__file__))+'/'
-filesystem.create_directory(current_dir+'logs')
-filesystem.create_directory(current_dir+'static/backups')
-filesystem.create_directory(current_dir+'database')
-
-db = Database.Database(current_dir+'database/app.db')
-db.set('config', 'app_root_path', current_dir)
+root_path = os.path.abspath(os.path.dirname(__file__))+'/'
+filesystem.create_directory(root_path+'logs')
+filesystem.create_directory(root_path+'static/backups')
+filesystem.create_directory(root_path+'database')
 
 app = Flask(__name__)
 
@@ -57,7 +54,6 @@ def system():
         gpu_manufacturer    = hardware.get_gpu_manufacturer(),
         gpu_type            = hardware.get_gpu_type(),
         resolution          = hardware.get_current_resolution(),
-        max_resolution      = hardware.get_maximum_resolution(),
         cpu_type            = hardware.get_cpu_type(),
         cpu_core_count      = hardware.get_cpu_core_count(),
         cpu_load            = hardware.get_cpu_load(),
@@ -80,6 +76,7 @@ def system_tools():
 
 @app.route('/upload_backup',  methods=['POST'])
 def upload_backup():
+    from System import config
     backup_file = request.files['backup_file']
     backup_file_name = secure_filename(backup_file.filename)
     backup_file.save(path.join(config.xbmc_backups_dir, backup_file_name))

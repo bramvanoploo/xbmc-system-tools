@@ -76,3 +76,6 @@ def append_to_file(file_path, content):
 
 def move(source, destination):
     shutil.move(source, destination)
+    
+def get_users():
+    return [name for name in os.listdir(thedir) if os.path.isdir(os.path.join(thedir, name)) and not name.startswith('.')]

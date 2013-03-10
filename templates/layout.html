@@ -73,7 +73,16 @@
         	    });
                 
                 var loUpdateChecker = setInterval(function(){
-                   api.isUpdateAvailable(function(poIsAvailable){
+                    api.getRemoteUpdatesCount(function(pnUpdatesCount){
+                       if(pnUpdatesCount > 0) {
+                           clearInterval(loUpdateChecker);
+                           $.notify_osd.create({
+                                text: 'Update available (' +pnUpdatesCount+ ' commits behind).'
+                            });
+                       }
+                   });
+                   
+                    /*api.isUpdateAvailable(function(poIsAvailable){
                        if(poIsAvailable) {
                            clearInterval(loUpdateChecker);
                            $.notify_osd.create({
@@ -81,6 +90,7 @@
                             });
                        }
                    });
+                   */
                 }, INFO_UPDATE_INTERVAL);   
         	});
         </script>

@@ -2,6 +2,7 @@
 import config
 import git
 import log
+import time
 from inspect import stack
 
 def update():
@@ -14,23 +15,48 @@ def update():
     except:
         log.error('Git pull failed', stack()[0][3])
         return False
+
+def get_local_commit():
+    repo = git.Repo(config.app_root_path)
+    return repo.commit()
+
+def get_remote_commit():
+    repo = git.Repo(config.app_root_path)
+    remote = git.remote.Remote(repo, 'origin')
+    remote_info = remote.fetch()[0]
+    return remote_info.commit
+    
+def get_local_version():
+    local_commit = get_local_commit()
+    return local_commit.hexsha
+
+def get_local_version_time():
+    local_commit = get_local_commit()
+    return local_commit.committed_date
+
+def get_remote_version():
+    remote_commit = get_remote_commit()
+    return remote_commit.hexsha
+
+def get_remote_version_time():
+    remote_commit = get_remote_commit()
+    return remote_commit.committed_date
+
+def get_remote_updates_count():
+    local_commit = get_local_commit()
+    repo = git.Repo(config.app_root_path)
+    remote = git.remote.Remote(repo, 'origin')
+    remote_info = remote.fetch()
+    count = 0;
+    for entry in remote_info:
+        if not entry.commit.hexsha.strip() == local_commit.hexsha.strip():
+            count += 1
+        else:
+            break
+    return count
     
 def is_update_available():
-    try:
-        repo = git.Repo(config.app_root_path)
-        local_commit = repo.commit()
-        remote = git.remote.Remote(repo, 'origin')
-        remote_info = remote.fetch()[0]
-        remote_commit = remote_info.commit
-        if local_commit.hexsha is remote_commit.hexsha:
-            return False
-        else:
-            return True
-    except:
-        log.debug('Could not check for new version of software', stack()[0][3])
-        return False
+    return False if get_local_version() is get_remote_version() else True
     
 def get_version():
-    repo = git.Repo(config.app_root_path)
-    local_commit = repo.commit()
-    return config.version + ' - git ' +local_commit.hexsha
+    return config.version + ' (' +time.asctime(time.gmtime(get_local_version_time()))+ ')'

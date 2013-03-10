@@ -147,4 +147,10 @@ function Api() {
 			return (poData && poData.success && poData.result === true)? pfCallback(true) : pfCallback(false);
 		});
     };
+    
+    this.getRemoteUpdatesCount = function(pfCallback) {
+        this.request('application.get_remote_updates_count', '', function(poData){
+			return (poData && poData.success)? pfCallback(poData.result) : pfCallback(0);
+		});
+    };
 }
