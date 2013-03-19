@@ -1,0 +1,3 @@
+function Config() {
+    var data = {}
+}

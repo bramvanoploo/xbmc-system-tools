@@ -31,6 +31,10 @@ def index():
 def update():
     return 'Updated' if application.update() else 'Error updating'
 
+@app.route('/xbmc_repositories')
+def xbmc_repositories():
+    return render_template('xbmc_repositories.html')
+
 @app.route('/xbmc_backups')
 def xbmc_backups():
     return render_template('xbmc_backups.html',
