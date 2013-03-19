@@ -147,6 +147,7 @@
 				</form>
 			</td>
 		</tr>
+    {% if backups %}
 		<tr>
 			<th colspan="2">
 				Archive
@@ -165,5 +166,6 @@
 			</td>
 		<tr>
 		{% endfor %}
+    {% endif %}
 	</table>
 {% endblock %}

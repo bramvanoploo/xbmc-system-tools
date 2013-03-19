@@ -4,10 +4,111 @@
     {{ super() }}
     <script type="text/javascript">
        	$(document).ready(function(){
-       		
-       	});
+            var lstrActiveXbmcPpa = 'No xbmc repository installed';
+            
+            $.getJSON('/api?method=ppa.get_active&params="xbmc"',
+                function(poData) {
+                    var xbmcConfig = new XbmcConfig();
+                    var laRepos = xbmcConfig.getAvailableRepositories();
+                    
+                    if (poData && poData.success && poData.result.length > 0) {
+                        lstrActiveXbmcPpa = poData.result[0];
+                    }
+                    
+                    $('#activeXbmcPpa').html('<b>' +lstrActiveXbmcPpa+ '</b>');
+                    
+                    for(var i=0; i<laRepos.length; i++){
+                        if(laRepos[i][1].trim() !== lstrActiveXbmcPpa.trim()) {
+                            $('select[name=xbmc_repositories]').append('<option value="' +laRepos[i][1].trim()+ '">' +laRepos[i][0].trim()+ '</option>');
+                        }
+                    }
+                }
+            );
+                
+            $('button[name=apply_repository]').bind('click', function(){
+                $('<div title="Confirm using the repository"></div>')
+					.html('Are you sure you want activate this XBMC repository? The currently active repository (' +lstrActiveXbmcPpa+ ') will be removed.')
+					.appendTo('body')
+					.dialog({
+						resizable: false,
+						height: 150,
+						width: 400,
+						modal: true,
+						buttons: {
+							'Yes': function() {
+								$(this).dialog("close");
+
+								showLoading('Attempting to remove XBMC repository "' +lstrActiveXbmcPpa+ '".<br />Please be patient.');
+
+								api.purgePpa(lstrActiveXbmcPpa, function(poResult){
+									$.notify_osd.create({
+										text: (poResult && poResult.success)? 'Repository "' +lstrActiveXbmcPpa+ '" successfully removed' : 'Repository "' +lstrActiveXbmcPpa+ '" could not be removed. Are you sure you\'ve entered the correct name and that it\'s an existing repository?'
+									});
+
+									hideLoading();
+								});
+							},
+							'No': function() {
+								$.notify_osd.create({
+									text: 'Cancelled installation of new XBMC repository.'
+								});
+
+							  	$(this).dialog("close");
+							}
+						}
+			    	}
+				);
+                
+                return false;
+            });
+        });
     </script>
 {% endblock %}
 {% block content %}
-	test
+	<br />
+    <table>
+    	<tr>
+    		<th colspan="2">
+    			Xbmc repositories
+    		</th>
+    	</tr>
+        <tr>
+    		<td class="title">
+                Active PPA
+            </td>
+            <td id="activeXbmcPpa"></td>
+    	</tr>
+    	<tr>
+    		<td class="title">
+                Select a repository
+            </td>
+    		<td>
+                <select name="xbmc_repositories">
+                    <option value=""> -- Select a repository to use</option>
+                </select>
+    		</td>
+    	</tr>
+        <tr>
+    		<td class="title"></td>
+    		<td style="color:#888; font-size:10px;">
+                Some versions of XBMC might not be compatible. Please create a 
+                <a href="/xbmc_backups" style="text-decoration:underline;">backup</a> of your current configuration 
+                before switching repositories. Otherwise you might lose some of your configuration.
+    		</td>
+    	</tr>
+    	<tr>
+    		<td class="title">
+                (re)install XBMC?
+            </td>
+    		<td>
+                <input type="checkbox" checked="checked" value="1" />
+    		</td>
+    	</tr>
+        <tr>
+    		<td class="title"></td>
+    		<td>
+                <button name="apply_repository" class="medium">Apply</button>
+    		</td>
+    	</tr>
+    </table>
 {% endblock %}
