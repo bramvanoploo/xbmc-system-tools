@@ -26,6 +26,13 @@
             );
                 
             $('button[name=apply_repository]').bind('click', function(){
+                var lstrSelectedRepo = $('select[name=xbmc_repositories]').val().trim();
+                
+                if(lstrSelectedRepo === '') {
+                    alert('Please select a repository to use first!');
+                    return false;
+                }
+                
                 $('<div title="Confirm using the repository"></div>')
 					.html('Are you sure you want activate this XBMC repository? The currently active repository (' +lstrActiveXbmcPpa+ ') will be removed.')
 					.appendTo('body')
@@ -50,7 +57,7 @@
 							},
 							'No': function() {
 								$.notify_osd.create({
-									text: 'Cancelled installation of new XBMC repository.' 
+									text: 'Installation of new XBMC repository cancelled.' 
 								});
 
 							  	$(this).dialog("close");
