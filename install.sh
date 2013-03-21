@@ -1,8 +1,9 @@
 #!/bin/bash
 #
 # @author   Bram van Oploo
-# @date     2013-02-12
-# @version  3.0.0 alpha 1
+# @email    info@sudo-systems.com
+# @date     2013-03-21
+# @version  1.0.0 alpha 2
 #
 
 clear

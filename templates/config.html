@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block title %}System information{% endblock %}
+{% block head %}
+    {{ super() }}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#systemCpuLoad').html($('#cpuLoad').html());
+			$('#systemRamInUse').html($('#ramInUse').html());
+
+			setInterval(function(){
+				$('#systemCpuLoad').html($('#cpuLoad').html());
+			}, 100);
+
+			setInterval(function(){
+				$('#systemRamInUse').html($('#ramInUse').html());
+			}, 100);
+		});
+	</script>
+{% endblock %}
+{% block content %}
+    <br />
+	<table width="100%">
+	    <tr>
+	        <th colspan="2">
+	            Configuration
+	        </th>
+	    </tr>
+	    <tr>
+	        <td class="title">
+	            username
+	        </td>
+	        <td>
+	            <input type="text" placeholder="admin" value="" name="username" />
+	        </td>
+	    </tr>
+        <tr>
+	        <td class="title">
+	            password
+	        </td>
+	        <td>
+	            <input type="password" placeholder="........." value="" name="password" />
+	        </td>
+	    </tr>
+	</table>
+{% endblock %}

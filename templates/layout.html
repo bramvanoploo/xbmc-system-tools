@@ -145,8 +145,17 @@
                         </li>
                     </ul>
                     <br />
-                    <br />
-                    <a href="/about" {% if request.path == "/about" %}class="active"{% endif %}>About</a>
+					<h4>
+                        Application
+                    </h4>
+					<ul>
+						<li>
+                            <a href="/config" {% if request.path == "/config" %}class="active"{% endif %}>Configuration</a>
+                        </li>
+                        <li>
+                            <a href="/about" {% if request.path == "/about" %}class="active"{% endif %}>About</a>
+                        </li>
+                    </ul>
                 </td>
                 <td id="content">
                 	<div id="contentWrapper">

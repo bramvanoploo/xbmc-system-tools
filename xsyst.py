@@ -1,8 +1,18 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+#
+# @author   Bram van Oploo
+# @email    info@sudo-systems.com
+# @date     2013-03-21
+# @version  1.0.0 alpha 2
+#
+
 import json
 import types
 import urllib
 import sys
 import os
+from functools import wraps
 from inspect import stack
 from os import path
 from flask import Flask, render_template, request, Response, redirect, send_file
@@ -16,6 +26,21 @@ filesystem.create_directory(root_path+'database')
 
 app = Flask(__name__)
 
+def check_auth(username, password):
+    return username == 'admin' and password == 'xsyst'
+
+def authenticate():
+    return Response('Please enter your credentials', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
+
 def method_exists(method_name):
     try:
         ret = type(eval(method_name))
@@ -24,33 +49,40 @@ def method_exists(method_name):
         return False
 
 @app.route('/')
+@requires_auth
 def index():
     return redirect('/system_info', 301)
 
 @app.route('/update')
+@requires_auth
 def update():
     return 'Updated' if application.update() else 'Error updating'
 
 @app.route('/xbmc_repositories')
+@requires_auth
 def xbmc_repositories():
     return render_template('xbmc_repositories.html')
 
 @app.route('/xbmc_backups')
+@requires_auth
 def xbmc_backups():
     return render_template('xbmc_backups.html',
         xbmc_dir_size = helper.get_readable_size(filesystem.get_directory_size(config.xbmc_home_dir)),
         backups = xbmc.get_existing_backup_url_paths())
         
 @app.route('/xbmc_backups/download/<path:filename>')
+@requires_auth
 def download_backup(filename):
-    return send_file(db.get('config', 'backups_dir')+filename, as_attachment=True)
+    return send_file(config.xbmc_backups_dir+filename, as_attachment=True)
 
 @app.route('/addon_repositories')
+@requires_auth
 def addon_repositories():
     return render_template('addon_repositories.html',
         repositories = xbmc.get_installable_repositories())
 
 @app.route('/system_info')
+@requires_auth
 def system():
     return render_template('system_info.html',
         os                  = ubuntu.get_version(),
@@ -65,28 +97,37 @@ def system():
         ram_in_use          = hardware.get_ram_in_use())
 
 @app.route('/prepare_system')
+@requires_auth
 def prepare_system():
     #db.set('installation_steps', 'prepare_system', 1)
     return render_template('prepare_system.html')
 
 @app.route('/about')
+@requires_auth
 def about():
     return render_template('about.html',
         application_version = application.get_version())
+        
+@app.route('/config')
+@requires_auth
+def config():
+    return render_template('config.html')
 
 @app.route('/system_tools')
+@requires_auth
 def system_tools():
     return render_template('system_tools.html')
 
 @app.route('/upload_backup',  methods=['POST'])
+@requires_auth
 def upload_backup():
-    from System import config
     backup_file = request.files['backup_file']
     backup_file_name = secure_filename(backup_file.filename)
     backup_file.save(path.join(config.xbmc_backups_dir, backup_file_name))
     return redirect('/xbmc_backups', 301)
 
 @app.route('/api')
+@requires_auth
 def api():
     result = {
         'success' : False,
