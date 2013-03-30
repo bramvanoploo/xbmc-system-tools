@@ -25,6 +25,7 @@ cd ~
 git clone -q https://github.com/Bram77/xbmc-system-tools.git .xsyst > /dev/null 2>&1
 cd $PROGRAM_PATH
 git pull > /dev/null 2>&1
+sudo rm $INITD_PATH > /dev/null 2>&1
 sudo cp $PROGRAM_PATH"/initd_ubuntu" $INITD_PATH > /dev/null 2>&1
 sudo sed -i "s/|program_path|/$(echo $PROGRAM_PATH | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/g" $INITD_PATH
 sudo chmod +x $INITD_PATH > /dev/null 2>&1
